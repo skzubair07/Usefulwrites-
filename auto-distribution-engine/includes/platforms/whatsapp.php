@@ -35,14 +35,25 @@ class UADE_Platform_WhatsApp
         ]);
 
         if (is_wp_error($response)) {
-            return $response;
+            return [
+                'success' => false,
+                'message' => $response->get_error_message(),
+                'raw'     => $response,
+            ];
         }
 
         $code = wp_remote_retrieve_response_code($response);
         if ($code < 200 || $code >= 300) {
-            return new WP_Error('whatsapp_error', 'WhatsApp channel post failed.');
+            return [
+                'success' => false,
+                'message' => 'WhatsApp channel post failed.',
+                'raw'     => $response,
+            ];
         }
 
-        return true;
+        return [
+            'success' => true,
+            'raw'     => $response,
+        ];
     }
 }

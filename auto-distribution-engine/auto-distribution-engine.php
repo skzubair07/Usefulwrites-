@@ -28,6 +28,7 @@ if (! defined('UADE_PLUGIN_URL')) {
 }
 
 require_once UADE_PLUGIN_DIR . 'includes/class-queue.php';
+require_once UADE_PLUGIN_DIR . 'includes/class-log.php';
 require_once UADE_PLUGIN_DIR . 'includes/class-scheduler.php';
 require_once UADE_PLUGIN_DIR . 'includes/class-platform-router.php';
 require_once UADE_PLUGIN_DIR . 'admin/settings-page.php';
@@ -47,6 +48,9 @@ final class UADE_Plugin
     /** @var UADE_Platform_Router */
     private $router;
 
+    /** @var UADE_Log */
+    private $log;
+
     public static function instance()
     {
         if (null === self::$instance) {
@@ -59,7 +63,8 @@ final class UADE_Plugin
     private function __construct()
     {
         $this->queue     = new UADE_Queue();
-        $this->router    = new UADE_Platform_Router();
+        $this->log       = new UADE_Log();
+        $this->router    = new UADE_Platform_Router($this->log);
         $this->scheduler = new UADE_Scheduler($this->queue, $this->router);
 
         add_action('init', [$this, 'register_post_status']);
@@ -67,7 +72,9 @@ final class UADE_Plugin
         add_action('admin_init', [$this, 'register_settings']);
 
         new UADE_Settings_Page($this->queue, $this->router);
-        new UADE_Queue_Page($this->queue, $this->router);
+        new UADE_Queue_Page($this->queue, $this->router, $this->log);
+
+        $this->maybe_upgrade_tables();
     }
 
     public function register_post_status()
@@ -124,7 +131,11 @@ final class UADE_Plugin
     public static function activate()
     {
         $queue = new UADE_Queue();
+        $log   = new UADE_Log();
         $queue->create_table();
+        $log->create_table();
+
+        update_option('uade_db_version', UADE_VERSION);
 
         UADE_Scheduler::schedule_cron();
     }
@@ -132,6 +143,20 @@ final class UADE_Plugin
     public static function deactivate()
     {
         UADE_Scheduler::unschedule_cron();
+    }
+
+    private function maybe_upgrade_tables()
+    {
+        $version = get_option('uade_db_version');
+
+        if (UADE_VERSION === $version) {
+            return;
+        }
+
+        $this->queue->create_table();
+        $this->log->create_table();
+
+        update_option('uade_db_version', UADE_VERSION);
     }
 }
 
