@@ -15,8 +15,12 @@ class UADE_Platform_Router
 {
     private $platforms = [];
 
-    public function __construct()
+    /** @var UADE_Log */
+    private $log;
+
+    public function __construct(UADE_Log $log)
     {
+        $this->log = $log;
         $this->platforms = [
             'telegram'  => new UADE_Platform_Telegram(),
             'facebook'  => new UADE_Platform_Facebook(),
@@ -47,14 +51,17 @@ class UADE_Platform_Router
             }
 
             $send_result = $platform->send($payload, $platform_settings);
+            $normalized = $this->normalize_send_result($send_result);
 
-            if (is_wp_error($send_result)) {
+            if (! $normalized['success']) {
                 $result['all_success'] = false;
                 $result['status_map'][$key] = 'failed';
-                $result['errors'][$key] = $send_result->get_error_message();
+                $result['errors'][$key] = $normalized['message'];
             } else {
                 $result['status_map'][$key] = 'posted';
             }
+
+            $this->log->add((int) $post->ID, $key, $result['status_map'][$key], $normalized['raw']);
 
             if ($delay > 0) {
                 sleep((int) $delay);
@@ -62,6 +69,31 @@ class UADE_Platform_Router
         }
 
         return $result;
+    }
+
+    private function normalize_send_result($send_result)
+    {
+        if (is_wp_error($send_result)) {
+            return [
+                'success' => false,
+                'message' => $send_result->get_error_message(),
+                'raw'     => $send_result,
+            ];
+        }
+
+        if (is_array($send_result) && array_key_exists('success', $send_result)) {
+            return [
+                'success' => ! empty($send_result['success']),
+                'message' => ! empty($send_result['message']) ? (string) $send_result['message'] : __('Platform API request failed.', 'auto-distribution-engine'),
+                'raw'     => array_key_exists('raw', $send_result) ? $send_result['raw'] : $send_result,
+            ];
+        }
+
+        return [
+            'success' => (bool) $send_result,
+            'message' => __('Platform API request failed.', 'auto-distribution-engine'),
+            'raw'     => $send_result,
+        ];
     }
 
     private function build_payload(WP_Post $post)

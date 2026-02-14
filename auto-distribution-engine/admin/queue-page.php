@@ -12,10 +12,14 @@ class UADE_Queue_Page
     /** @var UADE_Platform_Router */
     private $router;
 
-    public function __construct(UADE_Queue $queue, UADE_Platform_Router $router)
+    /** @var UADE_Log */
+    private $log;
+
+    public function __construct(UADE_Queue $queue, UADE_Platform_Router $router, UADE_Log $log)
     {
         $this->queue  = $queue;
         $this->router = $router;
+        $this->log    = $log;
 
         add_action('admin_menu', [$this, 'register_submenu']);
         add_action('admin_post_uade_queue_action', [$this, 'handle_queue_action']);
@@ -81,18 +85,20 @@ class UADE_Queue_Page
                         <th><?php esc_html_e('Queue Status', 'auto-distribution-engine'); ?></th>
                         <th><?php esc_html_e('Platform Status', 'auto-distribution-engine'); ?></th>
                         <th><?php esc_html_e('Errors', 'auto-distribution-engine'); ?></th>
+                        <th><?php esc_html_e('API Response', 'auto-distribution-engine'); ?></th>
                         <th><?php esc_html_e('Actions', 'auto-distribution-engine'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php if (empty($items)) : ?>
-                    <tr><td colspan="5"><?php esc_html_e('No queue items found.', 'auto-distribution-engine'); ?></td></tr>
+                    <tr><td colspan="6"><?php esc_html_e('No queue items found.', 'auto-distribution-engine'); ?></td></tr>
                 <?php else : ?>
                     <?php foreach ($items as $item) : ?>
                         <?php
                         $platform_status = json_decode((string) $item->platform_status, true);
                         $errors = json_decode((string) $item->platform_error, true);
                         $post = get_post((int) $item->post_id);
+                        $latest_logs = $this->log->get_latest_by_post((int) $item->post_id);
                         ?>
                         <tr>
                             <td>
@@ -105,6 +111,7 @@ class UADE_Queue_Page
                             <td><?php echo esc_html($item->status); ?></td>
                             <td><?php echo esc_html($this->format_map($platform_status)); ?></td>
                             <td><?php echo esc_html($this->format_map($errors)); ?></td>
+                            <td><?php $this->render_log_buttons((int) $item->post_id, $latest_logs); ?></td>
                             <td>
                                 <?php if ('pending_approval' === $item->status) : ?>
                                     <?php $this->render_action_form('approve', (int) $item->id, __('Approve', 'auto-distribution-engine')); ?>
@@ -119,6 +126,49 @@ class UADE_Queue_Page
                 </tbody>
             </table>
         </div>
+
+        <div id="uade-log-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:100000;">
+            <div style="background:#fff; width:min(900px,90vw); margin:8vh auto; padding:16px; border-radius:6px; max-height:80vh; overflow:auto;">
+                <p style="display:flex; justify-content:space-between; align-items:center; margin-top:0;">
+                    <strong id="uade-log-modal-title"><?php esc_html_e('Latest API Response', 'auto-distribution-engine'); ?></strong>
+                    <button type="button" class="button" id="uade-log-modal-close"><?php esc_html_e('Close', 'auto-distribution-engine'); ?></button>
+                </p>
+                <pre id="uade-log-modal-body" style="white-space:pre-wrap; word-wrap:break-word; border:1px solid #ccd0d4; padding:12px; background:#f6f7f7;"></pre>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                const modal = document.getElementById('uade-log-modal');
+                const modalTitle = document.getElementById('uade-log-modal-title');
+                const modalBody = document.getElementById('uade-log-modal-body');
+                const closeBtn = document.getElementById('uade-log-modal-close');
+                if (!modal || !modalBody || !closeBtn) {
+                    return;
+                }
+
+                document.addEventListener('click', function (event) {
+                    const button = event.target.closest('.uade-view-log');
+                    if (!button) {
+                        return;
+                    }
+
+                    modalTitle.textContent = button.getAttribute('data-title') || '<?php echo esc_js(__('Latest API Response', 'auto-distribution-engine')); ?>';
+                    modalBody.textContent = button.getAttribute('data-response') || '<?php echo esc_js(__('No response logged yet.', 'auto-distribution-engine')); ?>';
+                    modal.style.display = 'block';
+                });
+
+                closeBtn.addEventListener('click', function () {
+                    modal.style.display = 'none';
+                });
+
+                modal.addEventListener('click', function (event) {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            }());
+        </script>
         <?php
     }
 
@@ -147,5 +197,33 @@ class UADE_Queue_Page
         }
 
         return implode(', ', $parts);
+    }
+
+    private function render_log_buttons($post_id, array $latest_logs)
+    {
+        if (empty($latest_logs)) {
+            echo '-';
+            return;
+        }
+
+        foreach ($latest_logs as $platform => $log) {
+            $title = sprintf(
+                /* translators: 1: platform name, 2: post id */
+                __('%1$s response (Post #%2$d)', 'auto-distribution-engine'),
+                ucfirst($platform),
+                (int) $post_id
+            );
+            ?>
+            <button
+                type="button"
+                class="button button-small uade-view-log"
+                style="margin:0 6px 6px 0;"
+                data-title="<?php echo esc_attr($title); ?>"
+                data-response="<?php echo esc_attr((string) $log->response); ?>"
+            >
+                <?php echo esc_html(sprintf('%s: %s', ucfirst($platform), __('View Log', 'auto-distribution-engine'))); ?>
+            </button>
+            <?php
+        }
     }
 }
