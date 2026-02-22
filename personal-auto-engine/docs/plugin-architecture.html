@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PADE Plugin Architecture</title>
+</head>
+<body>
+  <h1>Personal Auto Distribution Engine (PADE) - Architecture</h1>
+
+  <h2>Folder Structure</h2>
+  <pre>personal-auto-engine/
+    personal-auto-engine.php
+    includes/
+      class-settings.php
+      class-queue.php
+      class-scheduler.php
+      class-router.php
+      class-ai-engine.php
+      class-logger.php
+      class-database.php
+    platforms/
+      class-telegram.php
+      class-pinterest.php
+      class-facebook.php
+      class-twitter.php
+      class-linkedin.php
+    admin/
+      page-settings.php
+      page-control-center.php
+      page-queue.php
+    docs/
+      plugin-architecture.html</pre>
+
+  <h2>Database Schema</h2>
+  <ul>
+    <li><strong>wp_pade_queue</strong>: post_id, payload_json, status, retry_count, created_at, updated_at.</li>
+    <li><strong>wp_pade_logs</strong>: timestamp, platform, post_id, http_code, success_flag, raw_response.</li>
+  </ul>
+
+  <h2>Queue Lifecycle</h2>
+  <p>pending → approved → scheduled → processing → completed / failed</p>
+
+  <h2>Data Flow Diagram (Text)</h2>
+  <pre>Post Publish -> Queue Insert
+Queue Cron/Event -> Queue Processor
+Queue Processor -> AI Engine (caption)
+Queue Processor -> Router -> Platform Class
+Platform Class -> Logger::log()
+Logger -> wp_pade_logs</pre>
+
+  <h2>How to Add a New Platform</h2>
+  <ol>
+    <li>Create a new class in <code>platforms/</code> with a <code>send(array $payload): array</code> method.</li>
+    <li>Inject <code>PADE_Settings</code> and <code>PADE_Logger</code>.</li>
+    <li>Call <code>$logger->log()</code> after the request.</li>
+    <li>Register it in <code>PADE_Router::dispatch()</code> and <code>PADE_Router::platforms()</code>.</li>
+  </ol>
+
+  <h2>How AI Integration Works</h2>
+  <p><code>PADE_AI_Engine</code> builds a platform prompt using placeholders: <code>{post_title}</code>, <code>{post_content}</code>, <code>{platform_name}</code>. It sends the prompt to OpenAI Chat Completions using admin-defined model and max tokens. All raw AI responses are logged in <code>wp_pade_logs</code> under platform <code>ai-engine</code>.</p>
+</body>
+</html>
