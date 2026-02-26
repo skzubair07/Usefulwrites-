@@ -1,0 +1,7 @@
+customtkinter==5.2.2
+moviepy==1.0.3
+pydub==0.25.1
+openai==1.63.2
+pillow==10.4.0
+numpy==1.26.4
+imageio-ffmpeg==0.5.1
