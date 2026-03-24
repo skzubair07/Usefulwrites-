@@ -1,0 +1,28 @@
+.cwfb-step-wrapper {
+    margin-top: 24px;
+    padding: 16px;
+    border: 1px solid #e2e2e2;
+    background: #fff;
+}
+
+.cwfb-step-wrapper h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.cwfb-next-step {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 16px;
+    border-radius: 4px;
+    background: #2271b1;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.cwfb-next-step:hover,
+.cwfb-next-step:focus {
+    background: #135e96;
+    color: #fff;
+}
