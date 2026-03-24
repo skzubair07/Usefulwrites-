@@ -1,0 +1,12 @@
+.cwqsp-wrap{border:1px solid #e5e7eb;padding:16px;border-radius:12px;max-width:420px;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.04)}
+.cwqsp-form{display:flex;flex-direction:column;gap:10px}
+.cwqsp-form input{padding:10px;border:1px solid #d1d5db;border-radius:8px}
+.cwqsp-buy-btn,.cwqsp-download-btn{background:#111827;color:#fff;border:none;border-radius:8px;padding:10px 14px;cursor:pointer;text-decoration:none;display:inline-block}
+.cwqsp-loader{display:none;width:28px;height:28px;border:3px solid #d1d5db;border-top-color:#2563eb;border-radius:50%;animation:cwqspSpin .9s linear infinite;margin-top:10px}
+.cwqsp-wrap.is-loading .cwqsp-loader{display:block}
+.cwqsp-message{margin-top:10px;font-size:14px}
+.cwqsp-message.ok{color:#065f46}
+.cwqsp-message.err{color:#b91c1c}
+.cwqsp-thankyou-page{font-family:Arial,sans-serif;background:#f9fafb}
+.cwqsp-thankyou{max-width:640px;margin:80px auto;background:#fff;padding:24px;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+@keyframes cwqspSpin{to{transform:rotate(360deg)}}
