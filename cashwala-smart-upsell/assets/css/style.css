@@ -1,0 +1,160 @@
+.cw-upsell-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 99999;
+}
+
+.cw-upsell-modal.cw-visible {
+  display: block;
+}
+
+.cw-upsell-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+.cw-upsell-content,
+.cw-upsell-inline {
+  background: var(--cw-bg);
+  color: var(--cw-text);
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+}
+
+.cw-upsell-content {
+  position: relative;
+  width: min(920px, calc(100% - 40px));
+  margin: 8vh auto;
+  padding: 24px;
+  z-index: 1;
+}
+
+.cw-upsell-items {
+  display: grid;
+  gap: 16px;
+}
+
+.cw-layout-grid .cw-upsell-items {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.cw-upsell-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.cw-upsell-item img {
+  max-width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.cw-pricing {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.cw-old-price {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.cw-discount-price {
+  color: #16a34a;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.cw-savings {
+  background: #dcfce7;
+  color: #166534;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.cw-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cw-btn {
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  padding: 10px 14px;
+  font-weight: 600;
+}
+
+.cw-accept {
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: #fff;
+}
+
+.cw-skip {
+  background: #e2e8f0;
+  color: #1f2937;
+}
+
+.cw-rounded {
+  border-radius: 8px;
+}
+
+.cw-square {
+  border-radius: 2px;
+}
+
+.cw-pill {
+  border-radius: 999px;
+}
+
+.cw-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  border: 0;
+  background: transparent;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.cw-upsell-inline {
+  padding: 18px;
+  margin: 18px 0;
+}
+
+.cw-anim-fade .cw-upsell-content {
+  animation: cwFade 0.25s ease-out;
+}
+
+.cw-anim-slide .cw-upsell-content {
+  animation: cwSlide 0.25s ease-out;
+}
+
+.cw-anim-zoom .cw-upsell-content {
+  animation: cwZoom 0.25s ease-out;
+}
+
+@keyframes cwFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes cwSlide {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes cwZoom {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
