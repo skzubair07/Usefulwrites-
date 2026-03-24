@@ -1,0 +1,8 @@
+.cw-buy-wrap{margin:20px 0}.cw-payment-response{margin-top:12px;font-weight:600}
+#cw-lead-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99999}
+#cw-lead-modal .cw-modal-content{max-width:420px;margin:10vh auto;background:#fff;padding:20px;border-radius:8px;position:relative}
+#cw-lead-modal input{width:100%;margin:0 0 10px;padding:9px}
+#cw-lead-modal button{padding:10px 14px}
+#cw-lead-modal .cw-close{position:absolute;top:8px;right:10px;background:none;border:none;font-size:24px}
+.cw-affiliate-box{border:1px solid #ddd;padding:15px;border-radius:8px;background:#fafafa}
+.cw-toast-error{position:fixed;right:20px;bottom:20px;background:#dc3232;color:#fff;padding:10px 16px;border-radius:6px;z-index:99999}
