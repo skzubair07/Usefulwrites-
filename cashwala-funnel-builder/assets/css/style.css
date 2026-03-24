@@ -1,0 +1,23 @@
+.cwfb-next-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 4px;
+    background: #2271b1;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.cwfb-next-btn:hover {
+    background: #135e96;
+    color: #fff;
+}
+
+.cwfb-admin-wrap .cwfb-logs {
+    margin-top: 12px;
+    max-height: 350px;
+    overflow: auto;
+    background: #fff;
+    border: 1px solid #dcdcde;
+    padding: 12px;
+}
