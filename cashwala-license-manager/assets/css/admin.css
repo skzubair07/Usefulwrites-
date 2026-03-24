@@ -1,0 +1,42 @@
+.cwlmp-wrap .cwlmp-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(120px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.cwlmp-wrap .cwlmp-card {
+    border: 1px solid #dcdcde;
+    background: #fff;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.cwlmp-wrap .cwlmp-card strong {
+    font-size: 24px;
+    display: block;
+}
+
+.cwlmp-wrap .cwlmp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.cwlmp-wrap .cwlmp-panel {
+    background: #fff;
+    border: 1px solid #dcdcde;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.cwlmp-wrap .cwlmp-filter-form {
+    margin: 12px 0;
+    display: flex;
+    gap: 8px;
+}
+
+.cwlmp-wrap .cwlmp-inline-form {
+    margin-top: 8px;
+}
