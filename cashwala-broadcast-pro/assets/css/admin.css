@@ -1,0 +1,14 @@
+.cwbp-wrap .cwbp-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.cwbp-wrap .cwbp-stat-grid { display:grid; grid-template-columns:repeat(5,minmax(120px,1fr)); gap:12px; margin:20px 0; }
+.cwbp-wrap .cwbp-card { background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:18px; box-shadow:0 4px 18px rgba(15,23,42,.05); margin-bottom:20px; }
+.cwbp-wrap .cwbp-stat { font-size:28px; font-weight:700; margin:4px 0 0; color:#0f172a; }
+.cwbp-wrap .cwbp-badge { display:inline-block; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:600; }
+.cwbp-wrap .cwbp-lead { background:#fef3c7; color:#92400e; }
+.cwbp-wrap .cwbp-buyer { background:#dcfce7; color:#166534; }
+.cwbp-wrap .cwbp-inline-form { display:flex; gap:10px; align-items:center; margin-bottom:12px; }
+.cwbp-wrap .cwbp-actions { margin-bottom:12px; }
+.cwbp-wrap .cwbp-step { border:1px dashed #cbd5e1; border-radius:10px; padding:10px; margin:10px 0; }
+@media (max-width: 1000px) {
+  .cwbp-wrap .cwbp-grid,
+  .cwbp-wrap .cwbp-stat-grid { grid-template-columns:1fr; }
+}
