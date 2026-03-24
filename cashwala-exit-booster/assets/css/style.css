@@ -1,0 +1,138 @@
+.cw-eib-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(2px);
+    z-index: 99999;
+    padding: 20px;
+}
+
+.cw-eib-overlay.active {
+    display: flex;
+    animation: cwFade .25s ease;
+}
+
+.cw-eib-popup {
+    width: min(680px, 100%);
+    background: var(--cw-eib-bg, #fff);
+    border-radius: var(--cw-eib-radius, 14px);
+    padding: 28px;
+    box-shadow: 0 20px 50px rgba(2, 6, 23, 0.35);
+    transform-origin: center;
+    animation: cwScale .25s ease;
+    font-size: var(--cw-eib-font, 16px);
+    color: #0f172a;
+    position: relative;
+}
+
+.cw-eib-template-two .cw-eib-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 18px;
+    align-items: center;
+}
+
+.cw-eib-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    border: 0;
+    background: transparent;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    color: #64748b;
+}
+
+.cw-eib-popup h2 {
+    margin: 0 0 8px;
+    font-size: clamp(1.3rem, 1.1rem + 1vw, 2rem);
+}
+
+.cw-eib-popup p {
+    margin: 0 0 14px;
+    color: #334155;
+}
+
+.cw-eib-form {
+    display: grid;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.cw-eib-form input {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 11px 12px;
+    font-size: 15px;
+}
+
+.cw-eib-submit,
+.cw-eib-copy,
+.cw-eib-wa-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 0;
+    border-radius: 10px;
+    padding: 12px 16px;
+    background: var(--cw-eib-btn, #1f6fff);
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.cw-eib-coupon-wrap {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.cw-eib-coupon-code {
+    font-weight: 700;
+    letter-spacing: .08em;
+    background: #f8fafc;
+    border: 1px dashed #94a3b8;
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+.cw-eib-countdown {
+    margin: 10px 0;
+    font-weight: 600;
+    color: #b91c1c;
+}
+
+.cw-eib-msg {
+    margin-top: 8px;
+    min-height: 20px;
+    color: #0f766e;
+}
+
+@keyframes cwFade {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes cwScale {
+    from {transform: scale(.92); opacity: 0;}
+    to {transform: scale(1); opacity: 1;}
+}
+
+@media (max-width: 768px) {
+    .cw-eib-popup {
+        padding: 20px;
+    }
+
+    .cw-eib-template-two .cw-eib-grid {
+        grid-template-columns: 1fr;
+    }
+}
