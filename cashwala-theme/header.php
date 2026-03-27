@@ -9,7 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$options = cashwala_get_options();
+$settings = cashwala_get_settings();
+$logo_url = ! empty( $settings['logo_id'] ) ? wp_get_attachment_image_url( (int) $settings['logo_id'], 'full' ) : '';
 ?><!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -19,27 +20,27 @@ $options = cashwala_get_options();
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-<header class="site-header">
-	<div class="container site-header-inner">
-		<div class="site-branding">
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-brand-link" rel="home">
-				<?php if ( ! empty( $options['logo_url'] ) ) : ?>
-					<img src="<?php echo esc_url( $options['logo_url'] ); ?>" alt="<?php echo esc_attr( $options['website_name'] ); ?>" class="site-logo" loading="lazy" decoding="async">
-				<?php else : ?>
-					<span class="site-title"><?php echo esc_html( $options['website_name'] ); ?></span>
-				<?php endif; ?>
-			</a>
+<header class="cw-header">
+	<div class="cw-header__inner container">
+		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="cw-brand" rel="home">
+			<?php if ( $logo_url ) : ?>
+				<img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" class="cw-brand__logo">
+			<?php else : ?>
+				<span class="cw-brand__text"><?php bloginfo( 'name' ); ?></span>
+			<?php endif; ?>
+		</a>
+
+		<div class="cw-search" data-live-search>
+			<label class="screen-reader-text" for="cw-live-search"><?php esc_html_e( 'Search products', 'cashwala-theme' ); ?></label>
+			<input id="cw-live-search" type="search" placeholder="<?php esc_attr_e( 'Search e-books, plugins, combos…', 'cashwala-theme' ); ?>" data-live-search-input>
+			<div class="cw-search-results" data-live-search-results></div>
 		</div>
 
-		<nav class="header-nav" aria-label="<?php esc_attr_e( 'Header links', 'cashwala-theme' ); ?>">
-			<?php cashwala_print_links( $options['header_links'] ); ?>
-		</nav>
-
-		<?php if ( ! empty( $options['enable_dark_mode'] ) ) : ?>
-			<button class="dark-mode-toggle" type="button" data-dark-toggle aria-label="<?php esc_attr_e( 'Toggle dark mode', 'cashwala-theme' ); ?>">
-				<?php esc_html_e( 'Dark', 'cashwala-theme' ); ?>
-			</button>
-		<?php endif; ?>
+		<div class="cw-skin-switcher" role="group" aria-label="<?php esc_attr_e( 'Skin switcher', 'cashwala-theme' ); ?>">
+			<button type="button" class="cw-skin-btn" data-skin="premium"><?php esc_html_e( 'Light', 'cashwala-theme' ); ?></button>
+			<button type="button" class="cw-skin-btn" data-skin="dark"><?php esc_html_e( 'Dark', 'cashwala-theme' ); ?></button>
+			<button type="button" class="cw-skin-btn" data-skin="neon"><?php esc_html_e( 'Neon', 'cashwala-theme' ); ?></button>
+		</div>
 	</div>
 </header>
-<main id="primary" class="site-main">
+<main class="cw-main">
