@@ -1,0 +1,86 @@
+/* Deoband Online - mobile-first app UI */
+:root{
+  --do-primary:#0B5D3B;
+  --do-accent:#C9A227;
+  --do-bg:#f5f7f8;
+  --do-card:#ffffff;
+  --do-text:#182126;
+  --do-muted:#63717a;
+  --do-shadow:0 6px 20px rgba(11,93,59,.08);
+  --do-radius:14px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+.do-app{max-width:1080px;margin:0 auto;padding:84px 12px 88px;background:var(--do-bg);color:var(--do-text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif}
+
+.do-topbar{position:fixed;top:0;left:0;right:0;z-index:99;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:10px 12px}
+.do-search-wrap{position:relative}
+#do-search{width:100%;height:44px;border:1px solid #dbe2e7;border-radius:999px;padding:0 44px 0 16px;font-size:15px;outline:none}
+#do-search:focus{border-color:var(--do-primary);box-shadow:0 0 0 3px rgba(11,93,59,.12)}
+.do-loading{position:absolute;right:14px;top:50%;margin-top:-9px;width:18px;height:18px;border:2px solid #d5dbdf;border-top-color:var(--do-primary);border-radius:50%;opacity:0;animation:doSpin .7s linear infinite}
+.do-loading.active{opacity:1}
+.do-lang-switch{display:flex;gap:8px;margin-top:10px}
+.do-lang-switch a{flex:1;text-align:center;padding:8px 10px;border-radius:20px;background:#eef1f3;color:var(--do-muted);font-weight:600;font-size:12px;text-decoration:none}
+.do-lang-switch a.active{background:var(--do-primary);color:#fff}
+
+.do-search-results{display:none;max-height:320px;overflow:auto;background:#fff;border-radius:12px;box-shadow:var(--do-shadow);margin-top:8px;padding:8px}
+.do-search-results.show{display:block}
+.do-search-item{padding:10px;border-radius:10px;cursor:pointer}
+.do-search-item:hover{background:#f2f8f5}
+.do-search-item mark{background:#fff3cd;color:#6a4f00;padding:0 2px}
+
+.do-hero{margin-top:10px;border-radius:var(--do-radius);overflow:hidden;background:linear-gradient(135deg,var(--do-primary),#0e7a51);background-size:cover;background-position:center;min-height:150px;box-shadow:var(--do-shadow)}
+.do-hero-overlay{padding:22px;color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.15),rgba(0,0,0,.15))}
+.do-hero h1{margin:0 0 8px;font-size:24px;line-height:1.2}
+.do-hero p{margin:0;opacity:.95}
+
+.do-section{margin-top:18px}
+.do-section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.do-section h2{margin:0;font-size:20px}
+
+.do-grid{display:grid;gap:12px}
+.do-grid-trending{grid-template-columns:1fr 1fr}
+.do-grid-foryou,.do-grid-masail{grid-template-columns:1fr}
+
+.do-trend-card,.do-masail-card,.do-card-box{background:var(--do-card);border-radius:var(--do-radius);box-shadow:var(--do-shadow);padding:14px}
+.do-trend-card .rank{display:inline-block;background:#eef6f1;color:var(--do-primary);padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700}
+.do-trend-card h3{margin:8px 0 6px;font-size:15px;line-height:1.4}
+.do-trend-card p{margin:0;font-size:12px;color:var(--do-muted)}
+
+.do-masail-title{margin:0 0 8px;font-size:20px;line-height:1.35}
+.do-answer-box{background:#f1f8f4;border-left:4px solid var(--do-primary);border-radius:10px;padding:12px;font-size:15px;line-height:1.6}
+.do-meta{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0;color:var(--do-muted);font-size:12px}
+.do-source a{color:var(--do-primary);text-decoration:none;font-weight:600}
+.do-actions,.do-footer-cta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.do-btn{border:none;background:#e8eff1;color:#1f2f36;padding:10px 13px;border-radius:10px;text-decoration:none;font-size:13px;font-weight:600;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .2s ease}
+.do-btn:hover{transform:translateY(-1px);box-shadow:0 5px 10px rgba(0,0,0,.08)}
+.do-btn:active{transform:scale(.97)}
+.do-like-btn{background:#e8f2ec}
+.do-share-btn{background:#edf3f7}
+.do-save-btn{background:#f6f1e5}
+.do-btn-donate{background:var(--do-accent);color:#1f1a0a}
+.do-btn-ask{background:var(--do-primary);color:#fff}
+
+.do-related{margin-top:12px;padding-top:10px;border-top:1px solid #edf1f4}
+.do-related h4{margin:0 0 8px;font-size:14px}
+.do-related ul{margin:0;padding-left:16px}
+.do-related li{margin-bottom:4px;color:#32424a;font-size:13px}
+
+.do-two-col{display:grid;gap:12px}
+.do-list-news,.do-list-prayer{list-style:none;margin:0;padding:0}
+.do-list-news li{padding:8px 0;border-bottom:1px solid #f0f2f3}
+.do-list-news a{color:#203138;text-decoration:none}
+.do-list-prayer li{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #e7ecef}
+.do-empty{color:var(--do-muted);background:#fff;border-radius:12px;padding:14px;box-shadow:var(--do-shadow)}
+
+.do-fab{position:fixed;right:16px;bottom:18px;background:var(--do-primary);color:#fff;text-decoration:none;padding:13px 16px;border-radius:999px;box-shadow:0 10px 22px rgba(11,93,59,.3);font-weight:700}
+
+@keyframes doSpin{to{transform:rotate(360deg)}}
+
+@media (min-width:768px){
+  .do-app{padding:92px 20px 24px}
+  .do-topbar{left:50%;right:auto;transform:translateX(-50%);width:min(1080px,100%);padding:12px 20px}
+  .do-two-col{grid-template-columns:1fr 1fr}
+  .do-grid-foryou,.do-grid-masail{grid-template-columns:1fr 1fr}
+}
