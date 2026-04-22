@@ -1,0 +1,5 @@
+<?php /** Prayer settings template. */ ?>
+<div class="wrap"><h1>Prayer Time Settings</h1><form method="post"><?php wp_nonce_field( 'do_prayer_settings_nonce' ); ?>
+<p><label><input type="checkbox" name="manual_override" value="1" <?php checked( $settings['manual_override'], 1 ); ?>> Enable manual override</label></p>
+<p><input name="fajr" placeholder="Fajr" value="<?php echo esc_attr( $settings['manual_times']['fajr'] ?? '' ); ?>"> <input name="zuhr" placeholder="Zuhr" value="<?php echo esc_attr( $settings['manual_times']['zuhr'] ?? '' ); ?>"> <input name="asr" placeholder="Asr" value="<?php echo esc_attr( $settings['manual_times']['asr'] ?? '' ); ?>"> <input name="maghrib" placeholder="Maghrib" value="<?php echo esc_attr( $settings['manual_times']['maghrib'] ?? '' ); ?>"> <input name="isha" placeholder="Isha" value="<?php echo esc_attr( $settings['manual_times']['isha'] ?? '' ); ?>"></p>
+<p><button class="button button-primary" name="do_save_prayer_settings" value="1">Save</button></p></form></div>
